@@ -1,4 +1,4 @@
-# Nombre del Proyecto E-commerce
+# E-commerce Flask
 
 Este proyecto es un sitio web de e-commerce desarrollado con [Python](https://www.python.org/) y el microframework [Flask](https://flask.palletsprojects.com/). Fue diseñado para ofrecer una experiencia de compra en línea sencilla y segura.
 
@@ -14,7 +14,7 @@ Este proyecto es un sitio web de e-commerce desarrollado con [Python](https://ww
 
 - Backend: Python, Flask
 - Frontend: HTML, CSS, [Tailwind CSS](https://tailwindcss.com/), JavaScript
-- Base de Datos: SQLite/PostgreSQL
+- Base de Datos: SQLite
 - Otros: Flask-Migrate para las migraciones de base de datos, Flask-Mail para el envío de correos electrónicos, Flask-WTF para formularios.
 
 ## Instalación
