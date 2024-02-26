@@ -1,0 +1,51 @@
+<!-- templates/mostrar_productos.html -->
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+<section class="banner_main">
+
+    <div class="container text-center my-5">
+        <h2>Lista de Productos</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Imagen</th> <!-- Columna agregada para la imagen -->
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>
+                            <!-- Verifica si existe una ruta de imagen y muestra la imagen -->
+                            {% if producto.ruta_imagen %}
+                                <!-- Asegúrate de que la ruta relativa está correcta -->
+                                <img src="{{ producto.ruta_imagen }}" alt="{{ producto.nombre_art }}" style="width: 50px; height: auto;">
+                                {% else %}
+                                <span>Sin imagen</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ producto.nombre_art }}</td>
+                        <td>{{ producto.precio | currency }}</td>
+                        <td>
+                            <!-- Formulario para modificar -->
+                            <a href="{{ url_for('modificar_producto', id_producto=producto.id_producto) }}" class="btn btn-primary btn-sm">Modificar</a>
+                            <!-- Formulario para eliminar -->
+                            <form action="{{ url_for('eliminar_producto', id_producto=producto.id_producto) }}" method="post" style="display: inline-block;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

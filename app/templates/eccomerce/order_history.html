@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+<section class="banner_main">
+<div class="container mt-4">
+    <h2>Historial de Pedidos</h2>
+    {% if orders %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.created_at.strftime("%d/%m/%Y") }}</td>
+                    <td>${{ "%.2f"|format(order.total) }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>
+                      <!--  <a href="{{ url_for('confirm_order', order_id=order.id) }}" class="btn btn-sm btn-primary">Ver Detalles</a>     -->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes pedidos anteriores.</p>
+    {% endif %}
+</div>
+{% endblock %}

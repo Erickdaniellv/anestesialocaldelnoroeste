@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Nuestros Productos{% endblock %}
+
+{% block contenido %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.remove_from_cart').forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            e.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            fetch(`/cart/remove/${productId}`, {
+                method: 'POST',
+                // Aquí podrías incluir información adicional si es necesario, como un token CSRF
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload(); // Recarga la página para reflejar los cambios o maneja la actualización del UI aquí
+                } else {
+                    alert('Error al eliminar el producto');
+                }
+            });
+        });
+    });
+});
+</script>
+
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center">
+            <div class="w-full lg:w-8/12 px-4">
+                <table class="table-auto w-full text-left whitespace-no-wrap">
+                    <thead>
+                        <tr class="text-xs font-semibold tracking-wide text-gray-900 uppercase bg-gray-100">
+                            <th class="px-4 py-3">Imagen</th>
+                            <th class="px-4 py-3">Producto</th>
+                            <th class="px-4 py-3">Precio</th>
+                            <th class="px-4 py-3">Cantidad</th>
+                            <th class="px-4 py-3">Subtotal</th>
+                            <th class="px-4 py-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for product in products %}
+                        <tr class="text-gray-700">
+                            <td class="px-4 py-3">
+                                {% if product.ruta_imagen %}
+                                <img src="{{ product.ruta_imagen }}" alt="{{ product.nombre }}" class="w-20 h-20 object-cover">
+                                {% else %}
+                                No Image
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-3">{{ product.nombre }}</td>
+                            <td class="px-4 py-3">{{ product.precio | currency }}</td>
+                            <td class="px-4 py-3">{{ product.cantidad }}</td>
+                            <td class="px-4 py-3">{{ product.subtotal | currency }}</td>
+                            <td class="px-4 py-3">
+                                <form action="{{ url_for('remove_from_cart', product_id=product.id_producto) }}" method="POST" class="inline">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <button type="submit" class="text-red-600 hover:text-red-900">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="mt-4 flex justify-end">
+                    <span class="text-xl font-semibold">Total: {{ total | currency }}</span>
+                    <a href="{{ url_for('checkout') }}" class="ml-4 px-6 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-700">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+
+<section class="banner_main">
+    <div class="container text-center my-5">
+        <h1 class="display-4 text-success"><i class="fa fa-check-circle"></i> Pago Exitoso</h1>
+        <p class="lead mt-4">¡Gracias por tu compra!</p>
+
+        <div class="my-4">
+            <h2>Detalles del Pedido</h2>
+            <p class="font-weight-bold">Número de Pedido: {{ order_id }}</p>
+            <!-- Más detalles del pedido aquí -->
+
+            <p class="mt-3">
+                Un correo electrónico de confirmación ha sido enviado a tu dirección de correo electrónico.
+                Si tienes alguna pregunta sobre tu pedido, no dudes en contactarnos.
+            </p>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="btn btn-lg btn-primary">Volver a la Página Principal</a>
+    </div>
+</section>
+
+{% endblock %}

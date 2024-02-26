@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<section class="py-8">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap -mx-4">
+            <div class="flex flex-wrap w-full">
+                <div class="w-full lg:w-2/3 px-4 mb-4 lg:mb-0">
+                    <h2 class="text-2xl font-bold mb-4">Resumen del Pedido</h2>
+                </div>
+                <div class="w-full lg:w-1/3 px-4">
+                    <!-- Espacio reservado para alinear los títulos -->
+                </div>
+            </div>
+            <div class="w-full lg:w-2/3 px-4 mb-4 lg:mb-0">
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-4">
+                    <div class="px-4 py-5 sm:px-6 bg-gray-100">
+                        Productos precio unitario
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        {% for item in order.order_items %}
+                        <li class="list-group-item px-4 py-5 sm:flex sm:justify-between">
+                            <span class="text-sm font-medium text-gray-500">{{ item.quantity }} x {{ item.product.nombre_art }}</span>
+                            <strong class="mt-3 sm:mt-0 text-sm font-semibold">{{(item.price) | currency }}</strong>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                {% if order.shipping_address %}
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-4">
+                    <div class="px-4 py-5 sm:px-6 bg-gray-100">
+                        Dirección de Envío
+                    </div>
+                    <div class="card-body">
+                        {% for address in order.shipping_address %}
+                        <address class="px-4 py-5 sm:px-6">
+                            {{ address.address }}<br>
+                            {{ address.city }}, {{ address.postal_code }}<br>
+                            {{ address.state }}
+                        </address>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="w-full lg:w-1/3 px-4">
+                <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div class="px-4 py-5 sm:px-6 bg-gray-100">
+                        Detalles del Pago
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 text-lg font-semibold">Total: <strong>{{ (order.total) | currency }}</strong></h4>
+                        <p class="mb-4 text-sm">Correo Electrónico: <span>{{ order.guest_email or current_user.email }}</span></p>
+                        <button id="checkout-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full">Pagar Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script type="text/javascript">
+    var stripe = Stripe('pk_test_az0FgKbf4zKYRKzVaxEA2K27');
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var checkoutButton = document.getElementById('checkout-button');
+
+    checkoutButton.addEventListener('click', function () {
+        fetch('/create-checkout-session/{{ order.id }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (session) {
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function (result) {
+            if (result.error) {
+                alert(result.error.message);
+            }
+        })
+        .catch(function (error) {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+{% endblock %}

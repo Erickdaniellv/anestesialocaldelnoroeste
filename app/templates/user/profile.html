@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+<section class="banner_main">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Perfil de Usuario</h2>
+                    <p class="mb-2"><strong>Email:</strong> {{ current_user.email }}</p>
+                    <p class="mb-4"><strong>Nombre de Usuario:</strong> {{ current_user.nombre_usuario }}</p>
+
+                    <div class="user-actions mb-3">
+                        <a href="{{ url_for('order_history') }}" class="btn btn-outline-primary btn-sm">Historial de Pedidos</a> 
+                         <a href="{{ url_for('actualizar_perfil') }}" class="btn btn-info btn-sm">Actualizar Datos Fiscales</a> 
+                         <a href="{{ url_for('change_password') }}" class="btn btn-warning btn-sm">Cambiar Contraseña</a>
+
+                        {% if current_user.is_authenticated and current_user.es_administrador %}
+                        <div>
+                            <h5>Funciones de Admin</h5>
+                            <a href="{{ url_for('mostrar_productos') }}" class="btn btn-info btn-sm">Productos</a>
+                            <a href="{{ url_for('agregar_producto') }}" class="btn btn-outline-primary btn-sm">Agregar productos</a>
+                        </div>
+                    {% endif %}
+                    
+
+                    </div>
+
+                    <div class="user-settings">
+                        {% if current_user.es_administrador %}
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    {% endblock %}

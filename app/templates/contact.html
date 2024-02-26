@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block contenido %}
+<div class="container mx-auto max-w-4xl mt-10 px-4">
+  <div class="text-center mb-10">
+    <h2 class="text-3xl font-semibold">Contacto</h2>
+  </div>
+  <form action="{{ url_for('contact') }}" method="POST" class="w-full max-w-lg mx-auto">
+    {{ form.hidden_tag() }}
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        {{ form.name.label(class_='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2') }}
+        {{ form.name(class_='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500') }}
+      </div>
+      <div class="w-full md:w-1/2 px-3">
+        {{ form.phone.label(class_='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2') }}
+        {{ form.phone(class_='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500') }}
+      </div>
+    </div>
+    <div class="mb-6">
+      {{ form.email.label(class_='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2') }}
+      {{ form.email(class_='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500') }}
+    </div>
+    <div class="mb-6">
+      {{ form.message.label(class_='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2') }}
+      {{ form.message(class_='appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500', rows=4) }}
+    </div>
+    <div class="flex items-center justify-between">
+      {{ form.submit(class_='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded') }}
+    </div>
+  </form>
+</div>
+{% endblock %}

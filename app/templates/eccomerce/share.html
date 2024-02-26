@@ -1,0 +1,129 @@
+<div class="share-modal" id="shareModal" style="display:none;">
+    <div class="share-modal-content">
+        <!-- Copiar Enlace -->
+        <button onclick="copyToClipboard()">
+            <div class="share-icon"><i class="fas fa-copy"></i></div>Copiar
+        </button>
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/?text={{ url_for('producto_detalle', id_producto=producto.id_producto, nombre_art=producto.nombre_art, codigo_articulo=producto.codigo_articulo, marca=producto.marca, _external=True) | urlencode }}" target="_blank">
+            <div class="share-icon" style="color: #25D366;"><i class="fab fa-whatsapp"></i></div>
+            WhatsApp
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ url_for('producto_detalle', id_producto=producto.id_producto, nombre_art=producto.nombre_art, codigo_articulo=producto.codigo_articulo, marca=producto.marca, _external=True) | urlencode }}" target="_blank">
+            <div class="share-icon" style="color: #1877F2;"><i class="fab fa-facebook-f"></i></div>
+            Facebook
+        </a>
+
+        <!-- Twitter -->
+        <a href="https://twitter.com/intent/tweet?url={{ url_for('producto_detalle', id_producto=producto.id_producto, nombre_art=producto.nombre_art, codigo_articulo=producto.codigo_articulo, marca=producto.marca, _external=True) | urlencode }}" target="_blank">
+            <div class="share-icon" style="color: #1DA1F2;"><i class="fab fa-twitter"></i></div>
+            Twitter
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:?body={{ url_for('producto_detalle', id_producto=producto.id_producto, nombre_art=producto.nombre_art, codigo_articulo=producto.codigo_articulo, marca=producto.marca, _external=True) | urlencode }}" target="_blank">
+            <div class="share-icon"><i class="fas fa-envelope"></i></div>Email
+        </a>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function toggleShareModal() {
+        var shareModal = document.getElementById('shareModal');
+        if (shareModal.style.display === 'none' || shareModal.style.display === '') {
+            shareModal.style.display = 'block';
+        } else {
+            shareModal.style.display = 'none';
+        }
+    }
+
+    function copyToClipboard() {
+        var url = window.location.href;
+        navigator.clipboard.writeText(url).then(function() {
+            alert("Enlace copiado al portapapeles");
+        }, function(err) {
+            console.error('Error al copiar enlace: ', err);
+        });
+    }
+</script>
+
+
+
+<style>
+    .product-image {
+        position: relative;
+    }
+    
+    .share-button {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #007bff;
+        border: none;
+        border-radius: 50%;
+        padding: 5px;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .share-button:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+    }
+    
+    .share-section {
+        position: relative;
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .share-button i {
+        margin-right: 8px;
+    }
+    
+    .share-modal {
+        top: 5px;
+        left: 50px;
+        position: absolute;
+        background-color: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+    }
+    
+    .share-modal h5 {
+        margin-bottom: 15px;
+        font-size: 18px;
+    }
+    
+    .share-modal-content a,
+    .share-modal-content button {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        margin-bottom: 10px;
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    .share-icon {
+        margin-right: 10px;
+        font-size: 20px;
+        display: flex;
+    }
+    /* Agregar efecto de hover a cada botón de compartir */
+    
+    .share-modal-content a:hover,
+    .share-modal-content button:hover {
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+</style>

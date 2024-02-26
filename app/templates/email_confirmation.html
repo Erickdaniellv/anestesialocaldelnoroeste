@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resumen de Pedido</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.5; color: #333; }
+        .container { width: 100%; max-width: 600px; margin: 0 auto; }
+        .header { background-color: #4CAF50; color: white; padding: 10px; text-align: center; }
+        .order-details { margin: 15px 0; }
+        .order-details table { width: 100%; border-collapse: collapse; }
+        .order-details th, .order-details td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .order-details th { background-color: #f2f2f2; }
+        .footer { background-color: #f2f2f2; padding: 10px; text-align: center; margin-top: 20px; }
+        .footer p { margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Confirmación de Pedido</h2>
+        </div>
+
+        <div class="order-details">
+            <p><strong>Número de Pedido:</strong> {{ order.id }}</p>
+            <p><strong>Teléfono:</strong> {{ order.phone }}</p>
+
+            <h4>Dirección de Envío:</h4>
+            <address>
+                {{ shipping_address.address }}<br>
+                {{ shipping_address.city }}, {{ shipping_address.postal_code }}<br>
+                {{ shipping_address.state }}
+            </address>
+
+            <h4>Artículos:</h4>
+            <table>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Posición</th>
+                    <th>Marca</th>
+                    <th>Número de Parte</th>
+                </tr>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.nombre_art }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price | currency }}</td>
+                        <td>{{ item.product.posicion }}</td>
+                        <td>{{ item.product.marca }}</td>
+                        <td>{{ item.product.codigo_articulo }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <p><strong>Total del Pedido:</strong> {{ order.total | currency }}</p>
+        </div>
+    
+        <div class="footer">
+            <p>Gracias por comprar con nosotros.</p>
+        </div>
+    </div>
+</body>
+</html>
+    

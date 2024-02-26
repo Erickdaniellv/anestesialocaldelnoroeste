@@ -1,0 +1,72 @@
+
+
+<!-- templates/modificar_producto.html -->
+{% extends "base.html" %}
+
+{% block title %}Modificar Producto{% endblock %}
+
+{% block contenido %}
+
+<section class="banner_main">
+
+    <div class="container text-center my-5">
+        <h2>Modificar Producto</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.codigo_articulo.label(class="form-label") }}
+                {{ form.codigo_articulo(class="form-control", value=producto.codigo_articulo) }}
+            </div>
+            <div class="form-group">
+                {{ form.nombre_art.label(class="form-label") }}
+                {{ form.nombre_art(class="form-control", value=producto.nombre_art) }}
+            </div>
+            <div class="form-group">
+                {{ form.marca.label(class="form-label") }}
+                {{ form.marca(class="form-control", value=producto.marca) }}
+            </div>
+            <div class="form-group">
+                {{ form.precio.label(class="form-label") }}
+                {{ form.precio(class="form-control", value=producto.precio) }}
+            </div>
+            <div class="form-group">
+                {{ form.existencia.label(class="form-label") }}
+                {{ form.existencia(class="form-control", value=producto.existencia) }}
+            </div>
+            <div class="form-group">
+                {{ form.rating.label(class="form-label") }}
+                {{ form.rating(class="form-control", value=producto.rating) }}
+            </div>
+            <div class="form-group">
+                {{ form.precioOriginal.label(class="form-label") }}
+                {{ form.precioOriginal(class="form-control", value=producto.precioOriginal) }}
+            </div>
+            <div class="form-group">
+                {{ form.multiplo_venta.label(class="form-label") }}
+                {{ form.multiplo_venta(class="form-control", value=producto.multiplo_venta) }}
+            </div>
+            <div class="form-group">
+                {{ form.equivalencia.label(class="form-label") }}
+                {{ form.equivalencia(class="form-control", value=producto.equivalencia) }}
+            </div>
+            <div class="form-group">
+                {{ form.posicion.label(class="form-label") }}
+                {{ form.posicion(class="form-control", value=producto.posicion) }}
+            </div>
+            <div class="form-group">
+                {{ form.esFavorito.label(class="form-label") }}
+                {{ form.esFavorito(class="form-check-input", checked=producto.esFavorito) }}
+            </div>
+            <div class="form-group">
+                {{ form.imagen_producto.label(class="form-label") }}
+                {{ form.imagen_producto(class="form-control") }}
+                {% if producto.ruta_imagen %}
+                <img src="{{ url_for('static', filename='img/' ~ producto.ruta_imagen) }}" alt="Imagen del Producto" style="max-width: 100px;">
+                {% endif %}
+            </div>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,200 @@
+<!-- /home/erickdaniellv/refacajeme/app/templates/base.html -->
+<!DOCTYPE html>
+<html lang="es">
+ 
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-PK9QNGS6');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Título de la página -->
+    <title>RefaCajeme.com</title>
+
+    <!-- Links de CSS y fuentes -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/iconocarro.png') }}" type="image/png">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    
+
+    <!-- Scripts JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N32XPC77LB"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-N32XPC77LB');
+</script>
+
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PK9QNGS6"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='img/nombre.png') }}" alt="RefaCajeme" height="50" width="200">
+        </a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Inicio</a>
+                </li>
+
+                
+                <li class="nav-item">
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+                {% if current_user.es_administrador %}
+                <li class="nav-item">
+                    <a href="{{ url_for('lista_usuarios') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-user-cog">Admin</i>
+                    </a>
+                </li>
+                {% endif %} {% if current_user.es_vendedor %}
+                <li class="nav-item">
+                    <a href="{{ url_for('profile') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-user-cog"> Socio </i>
+                    </a>
+                    <a class="nav-link" href="/crm">CRM</a>
+                </li>
+                {% endif %} {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">{{ current_user.nombre_usuario }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                </li> {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Registrarse</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link mobile-cart-icon" href="/cart">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Token CSRF -->
+    <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}">
+
+    <!-- Contenido principal -->
+        {% block content %} 
+        
+
+
+
+        {% endblock %}
+
+    <!-- Aviso de Cookies -->
+    <div class="aviso-cookies" id="aviso-cookies">
+        <img class="galleta" src="{{ url_for('static', filename='img/cookie.svg') }}" alt="Galleta">
+        <h3 class="titulo">Cookies</h3>
+        <p class="parrafo">Utilizamos cookies propias y de terceros para mejorar nuestros servicios.</p>
+        <button class="boton" id="btn-aceptar-cookies">De acuerdo</button>
+        <a class="enlace" href="/aviso_cookies">Aviso de Cookies</a>
+    </div>
+
+    <div class="fondo-aviso-cookies" id="fondo-aviso-cookies"></div>
+    <script src="{{ url_for('static', filename='js/aviso-cookies.js') }}"></script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MB7HJ8K" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+</body>
+
+<footer class="bg-light text-center text-lg-start mt-4">
+    <div class="container p-4">
+
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <img src="{{ url_for('static', filename='img/refacajemecom3.png') }}" alt="RefaCajeme" class="mb-3" style="max-width: 150px; height: auto;">
+                <p>Líderes en refacciones. Calidad y confianza para tu vehículo.</p>
+            </div>
+
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">Navegación</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/privacy" class="text-dark">Política de Privacidad</a></li>
+                    <li><a href="/faq" class="text-dark">Preguntas Frecuentes</a></li>
+                    <li><a href="/contact" class="text-dark">Contacto</a></li>
+                    <li><a href="/aviso_cookies" class="text-dark">Cookies</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase mb-4">Contacto</h5>
+                <ul class="list-unstyled">
+                    <li>Tel: (644)103-2644</li>
+                    <li>Email: refacajeme@refacajeme.com</li>
+                    <li>Dirección: Av Las Lomas, Ciudad Obregon Sonora, Mexico</li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-lg-0">
+                <h5 class="text-uppercase mb-4">Síguenos</h5>
+                <a href="#" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            &copy; 2023 Refacajeme. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
+
+</html>

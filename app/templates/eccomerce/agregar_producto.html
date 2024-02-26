@@ -1,0 +1,55 @@
+<!-- templates/agregar_producto.html -->
+{% extends "base.html" %}
+
+{% block title %}Agregar Producto{% endblock %}
+
+{% block contenido %}
+
+<section class="banner_main">
+
+
+    <div class="container text-center my-5">
+        <h2>Agregar Producto</h2>
+        <form method="post" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.codigo_articulo.label }} {{ form.codigo_articulo }}
+            </div>
+            <div class="form-group">
+                {{ form.nombre_art.label }} {{ form.nombre_art }}
+            </div>
+            <div class="form-group">
+                {{ form.marca.label }} {{ form.marca }}
+            </div>
+            <div class="form-group">
+                {{ form.precio.label }} {{ form.precio }}
+            </div>
+            <div class="form-group">
+                {{ form.existencia.label }} {{ form.existencia }}
+            </div>
+            <div class="form-group">
+                {{ form.rating.label }} {{ form.rating }}
+            </div>
+            <div class="form-group">
+                {{ form.precioOriginal.label }} {{ form.precioOriginal }}
+            </div>
+            <div class="form-group">
+                {{ form.multiplo_venta.label }} {{ form.multiplo_venta }}
+            </div>
+            <div class="form-group">
+                {{ form.equivalencia.label }} {{ form.equivalencia }}
+            </div>
+            <div class="form-group">
+                {{ form.posicion.label }} {{ form.posicion }}
+            </div>
+            <div class="form-group">
+                {{ form.esFavorito.label }} {{ form.esFavorito }}
+            </div>
+            <div class="form-group">
+                {{ form.imagen_producto.label }} {{ form.imagen_producto }}
+            </div>
+            {{ form.submit }}
+        </form>
+    </div>
+</section>
+{% endblock %}

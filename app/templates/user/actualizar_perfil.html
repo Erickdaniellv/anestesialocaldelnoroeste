@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Página de inicio{% endblock %}
+
+{% block contenido %}
+<section class="banner_main">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg mb-5 bg-white rounded">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">Actualizar Perfil</h2>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.rfc.label }}
+                            {{ form.rfc(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.telefono.label }}
+                            {{ form.telefono(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.direccion.label }}
+                            {{ form.direccion(class="form-control") }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

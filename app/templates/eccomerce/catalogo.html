@@ -1,0 +1,147 @@
+<!-- templates/eccomerce/productos.html -->
+{% extends "base.html" %}
+
+{% block title %}Nuestros Productos{% endblock %}
+
+{% block contenido %}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.form-add-to-cart').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        let formData = new FormData(this);
+
+        fetch('/cart/add', {
+          method: 'POST',
+          body: formData
+        })
+          .then(response => response.json())
+          .then(data => handleResponse(data))
+          .catch(error => console.error('Error:', error));
+      });
+    });
+  });
+
+  function handleResponse(data) {
+    if (data.status === 'success') {
+      Swal.fire({
+        title: 'Éxito',
+        text: data.message,
+        icon: 'success',
+        showCancelButton: true, // Muestra un botón cancelar que actuaremos como nuestro botón para ir al carrito
+        confirmButtonText: 'Seguir comprando',
+        cancelButtonText: 'Ir al carrito',
+        cancelButtonColor: '#3085d6',
+        reverseButtons: true // Invierte el orden de los botones si lo prefieres
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          window.location.href = '/cart'; // Redirige al usuario al carrito
+        }
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: data.message,
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+    }
+  }
+
+
+</script>
+
+
+
+<style>
+  .custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+      7px 7px 20px 0px rgba(0, 0, 0, .1),
+      4px 4px 5px 0px rgba(0, 0, 0, .1);
+    outline: none;
+  }
+
+  .btn-1 {
+    background: rgb(96, 9, 240);
+    background: linear-gradient(0deg, rgba(96, 9, 240, 1) 0%, rgba(129, 5, 240, 1) 100%);
+    border: none;
+  }
+
+  .btn-1:before {
+    height: 0%;
+    width: 2px;
+  }
+
+  .btn-1:hover {
+    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .5),
+      -4px -4px 6px 0 rgba(116, 125, 136, .5),
+      inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+      inset 4px 4px 6px 0 rgba(0, 0, 0, .4);
+  }
+</style>
+
+
+
+<div class="bg-white py-6 sm:py-8 lg:py-12">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+    <div class="mb-6 flex items-end justify-between gap-4">
+      <h2 class="text-2xl font-bold text-gray-800 lg:text-3xl">Nuestros Productos</h2>
+      <!-- Puedes omitir el botón "Show more" si no es necesario, o adaptarlo según tus necesidades -->
+    </div>
+
+    <div class="grid gap-x-4 gap-y-8 sm:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4">
+      {% for producto in productos %}
+      <div>
+        <a href="#" class="group relative mb-2 block h-80 overflow-hidden rounded-lg bg-gray-100 lg:mb-3">
+          {% if producto.ruta_imagen %}
+          <img src="{{ producto.ruta_imagen }}" loading="lazy" alt="{{ producto.nombre_art }}"
+            class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+          {% else %}
+          <img src="{{ url_for('static', filename='img/default.jpg') }}" loading="lazy" alt="Imagen no disponible"
+            class="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
+          {% endif %}
+        </a>
+
+        <div>
+          <a href="#" class="hover:gray-800 mb-1 text-gray-500 transition duration-100 lg:text-lg">{{
+            producto.nombre_art }}</a>
+
+          <div class="flex items-end gap-2">
+            <span class="font-bold text-gray-800 lg:text-lg">{{ producto.precio | currency }}</span>
+            <!-- Incluir aquí cualquier otra información del producto que desees mostrar -->
+          </div>
+
+          <form action="{{ url_for('add_to_cart') }}" method="post"
+            class="form-add-to-cart mt-4 flex items-center gap-2">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id_producto" value="{{ producto.id_producto }}">
+            <div class="flex items-center h-10">
+              <input type="number" name="quantity" value="1" min="1" max="{{ producto.existencia }}"
+                class="w-16 px-2 text-center text-gray-700 bg-gray-200 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+            </div>
+            <button type="submit"
+              class="custom-btn btn-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">Comprar</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
